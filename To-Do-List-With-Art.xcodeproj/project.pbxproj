@@ -35,7 +35,7 @@
 
 /* Begin PBXFileReference section */
 		E638C70B22CF11F100647441 /* To-Do-List-With-Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "To-Do-List-With-Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E638C70E22CF11F100647441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E638C70E22CF11F100647441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 		E638C71022CF11F100647441 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E638C71322CF11F100647441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E638C71522CF11F200647441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,11 +97,9 @@
 		E638C70D22CF11F100647441 /* To-Do-List-With-Art */ = {
 			isa = PBXGroup;
 			children = (
-				E638C70E22CF11F100647441 /* AppDelegate.swift */,
+				E638C73C22CF15F200647441 /* Supporting Files */,
 				E638C71022CF11F100647441 /* ViewController.swift */,
 				E638C71222CF11F100647441 /* Main.storyboard */,
-				E638C71522CF11F200647441 /* Assets.xcassets */,
-				E638C71722CF11F200647441 /* LaunchScreen.storyboard */,
 				E638C71A22CF11F200647441 /* Info.plist */,
 			);
 			path = "To-Do-List-With-Art";
@@ -123,6 +121,16 @@
 				E638C73022CF11F200647441 /* Info.plist */,
 			);
 			path = "To-Do-List-With-ArtUITests";
+			sourceTree = "<group>";
+		};
+		E638C73C22CF15F200647441 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E638C70E22CF11F100647441 /* AppDelegate.swift */,
+				E638C71522CF11F200647441 /* Assets.xcassets */,
+				E638C71722CF11F200647441 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

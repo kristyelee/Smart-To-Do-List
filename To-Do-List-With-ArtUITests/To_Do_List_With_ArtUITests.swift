@@ -2,8 +2,8 @@
 //  To_Do_List_With_ArtUITests.swift
 //  To-Do-List-With-ArtUITests
 //
-//  Created by Kristy Lee on 7/4/19.
-//  Copyright © 2019 Kristy Lee. All rights reserved.
+//  Created by Kristy Lee, Amy Doo on 7/4/19.
+//  Copyright © 2019 Kristy Lee, Amy Doo. All rights reserved.
 //
 
 import XCTest
