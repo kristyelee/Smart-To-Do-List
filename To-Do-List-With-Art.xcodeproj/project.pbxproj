@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6A2E49222E8315D00868122 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */; };
+		E6A2E49422E8F7F000868122 /* ToDoDocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */; };
 		E6A56D6422DDA6BE00784171 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A56D6322DDA6BE00784171 /* AppDelegate.swift */; };
 		E6A56D6622DDA6BE00784171 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A56D6522DDA6BE00784171 /* ViewController.swift */; };
 		E6A56D6922DDA6BE00784171 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6A56D6722DDA6BE00784171 /* Main.storyboard */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
+		E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDocumentsTableViewController.swift; sourceTree = "<group>"; };
 		E6A56D6022DDA6BE00784171 /* To-Do-List-With-Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "To-Do-List-With-Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6A56D6322DDA6BE00784171 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6A56D6522DDA6BE00784171 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				E6A56D9122DDA6E400784171 /* Supporting Files */,
 				E6A56D6522DDA6BE00784171 /* ViewController.swift */,
 				E6A56D6722DDA6BE00784171 /* Main.storyboard */,
+				E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */,
+				E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */,
 				E6A56D6F22DDA6BE00784171 /* Info.plist */,
 			);
 			path = "To-Do-List-With-Art";
@@ -264,8 +270,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6A2E49422E8F7F000868122 /* ToDoDocumentsTableViewController.swift in Sources */,
 				E6A56D6622DDA6BE00784171 /* ViewController.swift in Sources */,
 				E6A56D6422DDA6BE00784171 /* AppDelegate.swift in Sources */,
+				E6A2E49222E8315D00868122 /* DrawingCanvasView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
