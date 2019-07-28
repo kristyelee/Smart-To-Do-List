@@ -25,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var drawingCanvas: UIView!
     @IBOutlet weak var tableView: UITableView!
     var tableData = [String]()
+    var timeData = [String]()
     
     //MARK: Table View
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -40,7 +41,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if tableView == self.tableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
             // Configure the cell...
-            cell.textLabel?.text = tableData[indexPath.row]
+            if let taskCell = cell as? TaskTableViewCell {
+                taskCell.taskName.text = tableData[indexPath.row]
+                taskCell.timeName.text = timeData[indexPath.row]
+                return taskCell
+            }
+            //cell.textLabel?.text = tableData[indexPath.row]
             return cell
         }
         return UITableViewCell()
@@ -49,7 +55,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: Action
     @IBAction func addTask(_ sender: Any) {
         let alert = UIAlertController(title: "Add Task",
-                                      message: "Please enter task and time (date, hours, etc) to get task done by",
+                                      message: "Please enter task and time (date, hours, etc. formatted however you like) to get task done by.",
                                       preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: taskTextField)
@@ -76,8 +82,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func addHandler(_ alert: UIAlertAction!) {
-        
+        tableData.append(taskTextField?.text ?? "n/a")
+        timeData.append(timeTextField?.text ?? "n/a")
+        self.tableView.reloadData()
     }
+    
+    
     
 }
 

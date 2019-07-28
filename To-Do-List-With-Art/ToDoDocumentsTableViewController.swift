@@ -42,13 +42,15 @@ class ToDoDocumentsTableViewController: UITableViewController {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
+  
+    /*
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if splitViewController?.preferredDisplayMode != .primaryOverlay {
             splitViewController?.preferredDisplayMode = .primaryOverlay
         }
     }
+    */
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
