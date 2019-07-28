@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoDocumentsTableViewController: UITableViewController {
 
-    var toDoDocuments = ["To-Do List"]
+    var toDoDocuments = ["To-Do List", "To-Do List 1"]
     
     // MARK: - Table view data source UITableViewDataSource
     
@@ -32,7 +32,7 @@ class ToDoDocumentsTableViewController: UITableViewController {
     }
 
     @IBAction func newToDo(_ sender: Any) {
-        toDoDocuments += ["To-Do List".madeUnique(withRespectTo: emojiArtDocuments)]
+        toDoDocuments += ["To-Do List".madeUnique(withRespectTo: toDoDocuments)]
         tableView.reloadData()
     }
     
