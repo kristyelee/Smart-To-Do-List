@@ -26,6 +26,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" id="VL2-F1-TaQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -71,21 +74,24 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRD-YR-GjA">
-                                                                    <rect key="frame" x="15" y="31.5" width="543.5" height="12"/>
+                                                                    <rect key="frame" x="15" y="31.5" width="608" height="12"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1m-yu-5rV">
-                                                                    <rect key="frame" x="568.5" y="10.5" width="25" height="25"/>
-                                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <rect key="frame" x="633" y="10.5" width="25" height="25"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="Hrn-fk-2WT"/>
                                                                         <constraint firstAttribute="height" constant="25" id="oL7-Vj-MeQ"/>
                                                                     </constraints>
+                                                                    <connections>
+                                                                        <action selector="checkTask:" destination="o2z-Zu-UkQ" eventType="touchUpInside" id="dGK-uX-ygB"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLi-BM-Doi">
-                                                                    <rect key="frame" x="15" y="11.5" width="543.5" height="20.5"/>
+                                                                    <rect key="frame" x="15" y="11.5" width="608" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -104,6 +110,7 @@
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
+                                                            <outlet property="checkButton" destination="c1m-yu-5rV" id="1cW-Y0-Tt8"/>
                                                             <outlet property="taskName" destination="wLi-BM-Doi" id="T1o-c8-epu"/>
                                                             <outlet property="timeName" destination="kRD-YR-GjA" id="CZL-kZ-Ox7"/>
                                                         </connections>
@@ -188,4 +195,7 @@
             <point key="canvasLocation" x="-1289.8550724637682" y="-130.58035714285714"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="VL2-F1-TaQ"/>
+    </inferredMetricsTieBreakers>
 </document>

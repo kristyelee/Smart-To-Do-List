@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E631229322ED6523008E2621 /* TaskListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E631229222ED6523008E2621 /* TaskListTableViewController.swift */; };
 		E64AD94022EE32ED00E3027E /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64AD93F22EE32ED00E3027E /* TaskTableViewCell.swift */; };
+		E65D92E222EEA37D0084A5B8 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D92E122EEA37D0084A5B8 /* TaskList.swift */; };
 		E6A2E49222E8315D00868122 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */; };
 		E6A2E49422E8F7F000868122 /* ToDoDocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */; };
 		E6A2E49622E9609200868122 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A2E49522E9609200868122 /* Utilities.swift */; };
@@ -39,8 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E631229222ED6523008E2621 /* TaskListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableViewController.swift; sourceTree = "<group>"; };
 		E64AD93F22EE32ED00E3027E /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		E65D92E122EEA37D0084A5B8 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
 		E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDocumentsTableViewController.swift; sourceTree = "<group>"; };
 		E6A2E49522E9609200868122 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -109,8 +109,8 @@
 			children = (
 				E6A56D9122DDA6E400784171 /* Supporting Files */,
 				E6A56D6522DDA6BE00784171 /* ViewController.swift */,
+				E65D92E122EEA37D0084A5B8 /* TaskList.swift */,
 				E6A56D6722DDA6BE00784171 /* Main.storyboard */,
-				E631229222ED6523008E2621 /* TaskListTableViewController.swift */,
 				E6A2E49322E8F7F000868122 /* ToDoDocumentsTableViewController.swift */,
 				E6A2E49522E9609200868122 /* Utilities.swift */,
 				E6A2E49122E8315D00868122 /* DrawingCanvasView.swift */,
@@ -279,8 +279,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65D92E222EEA37D0084A5B8 /* TaskList.swift in Sources */,
 				E64AD94022EE32ED00E3027E /* TaskTableViewCell.swift in Sources */,
-				E631229322ED6523008E2621 /* TaskListTableViewController.swift in Sources */,
 				E6A2E49422E8F7F000868122 /* ToDoDocumentsTableViewController.swift in Sources */,
 				E6A56D6622DDA6BE00784171 /* ViewController.swift in Sources */,
 				E6A56D6422DDA6BE00784171 /* AppDelegate.swift in Sources */,

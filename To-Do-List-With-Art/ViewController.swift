@@ -12,6 +12,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var taskTextField: UITextField?
     var timeTextField: UITextField?
+    static var counter = 0 {
+        didSet {
+            //tableView.draw()
+        }
+    }
     
 
     override func viewDidLoad() {
@@ -54,6 +59,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableViewCell()
     }
     
+    // Override to support editing the table view.
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableData.remove(at: indexPath.row)
+            timeData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
     //MARK: Action
     @IBAction func addTask(_ sender: Any) {
         let alert = UIAlertController(title: "Add Task",
@@ -76,11 +93,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func taskTextField(_ textField: UITextField) {
         taskTextField = textField
         taskTextField?.placeholder = "Task name"
+        taskTextField?.enablesReturnKeyAutomatically = true
     }
     
     func timeTextField(_ textField: UITextField) {
         timeTextField = textField
         timeTextField?.placeholder = "Date(Wed 3/14), hours (5 hours)"
+        timeTextField?.enablesReturnKeyAutomatically = true
     }
     
     func addHandler(_ alert: UIAlertAction!) {

@@ -10,7 +10,18 @@ import UIKit
 
 class ToDoDocumentsTableViewController: UITableViewController {
 
-    var toDoDocuments = ["To-Do List", "To-Do List 1"]
+    var taskTextField: UITextField?
+    var toDoDocuments = [TaskList(name: "To-Do List", taskList: [String](), timeList: [String]())]
+    lazy var toDoNames = toDoDocuments.map { $0.name }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+        
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
+    }
     
     // MARK: - Table view data source UITableViewDataSource
     
@@ -26,16 +37,39 @@ class ToDoDocumentsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
         // Configure the cell...
-        cell.textLabel?.text = toDoDocuments[indexPath.row]
+        cell.textLabel?.text = toDoDocuments[indexPath.row].name
         
         return cell
     }
 
     @IBAction func newToDo(_ sender: Any) {
-        toDoDocuments += ["To-Do List".madeUnique(withRespectTo: toDoDocuments)]
-        tableView.reloadData()
+        let alert = UIAlertController(title: "Add To-Do List",
+                                      message: "Enter name of list:",
+                                      preferredStyle: .alert)
+        
+        alert.addTextField(configurationHandler: taskTextField)
+        
+        let saveAction = UIAlertAction(title: "Add",
+                                       style: .default, handler: self.addHandler)
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .cancel)
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+        
     }
     
+    func taskTextField(_ textField: UITextField) {
+        taskTextField = textField
+        taskTextField?.placeholder = "List"
+        taskTextField?.enablesReturnKeyAutomatically = true
+    }
+
+    func addHandler(_ alert: UIAlertAction!) {
+        toDoDocuments.append(TaskList(name: taskTextField?.text?.madeUnique(withRespectTo: toDoNames) ?? "n/a", taskList: [String](), timeList: [String]()))
+        tableView.reloadData()
+    }
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -65,20 +99,20 @@ class ToDoDocumentsTableViewController: UITableViewController {
     
     
     
-    /*
+    
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
      
      }
-     */
+ 
     
-    /*
+    
      // Override to support conditional rearranging of the table view.
      override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the item to be re-orderable.
-     return true
+        return true
      }
-     */
+    
     
     /*
      // MARK: - Navigation
