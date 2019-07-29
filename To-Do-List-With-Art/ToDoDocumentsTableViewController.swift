@@ -10,8 +10,8 @@ import UIKit
 
 class ToDoDocumentsTableViewController: UITableViewController {
 
-    var taskTextField: UITextField?
-    var toDoDocuments = [TaskList(name: "To-Do List", taskList: [String](), timeList: [String]())]
+    var listTextField: UITextField?
+    var toDoDocuments = [TaskList(name: "To-Do List", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))]
     lazy var toDoNames = toDoDocuments.map { $0.name }
     
     override func viewDidLoad() {
@@ -53,7 +53,7 @@ class ToDoDocumentsTableViewController: UITableViewController {
                                       message: "Enter name of list:",
                                       preferredStyle: .alert)
         
-        alert.addTextField(configurationHandler: taskTextField)
+        alert.addTextField(configurationHandler: listTextField)
         
         let saveAction = UIAlertAction(title: "Add",
                                        style: .default, handler: self.addHandler)
@@ -66,14 +66,14 @@ class ToDoDocumentsTableViewController: UITableViewController {
         
     }
     
-    func taskTextField(_ textField: UITextField) {
-        taskTextField = textField
-        taskTextField?.placeholder = "List"
-        taskTextField?.enablesReturnKeyAutomatically = true
+    func listTextField(_ textField: UITextField) {
+        listTextField = textField
+        listTextField?.placeholder = "List"
+        listTextField?.enablesReturnKeyAutomatically = true
     }
 
     func addHandler(_ alert: UIAlertAction!) {
-        toDoDocuments.append(TaskList(name: taskTextField?.text?.madeUnique(withRespectTo: toDoNames) ?? "n/a", taskList: [String](), timeList: [String]()))
+        toDoDocuments.append(TaskList(name: listTextField?.text?.madeUnique(withRespectTo: toDoNames) ?? "n/a", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]())))
         tableView.reloadData()
     }
     
@@ -108,31 +108,21 @@ class ToDoDocumentsTableViewController: UITableViewController {
     
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
+        let toDoList = toDoDocuments[fromIndexPath.row]
+        toDoDocuments.remove(at: fromIndexPath.row)
+        toDoDocuments.insert(toDoList, at: to.row)
      }
  
-    
-    
      // Override to support conditional rearranging of the table view.
      override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the item to be re-orderable.
         return true
      }
     
-
+    /*
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //ViewController.tableData = toDoDocuments[indexPath.row].taskList
-        //ViewController.timeData = toDoDocuments[indexPath.row].timeList
-        //performSegue(withIdentifier: toDoDocuments[indexPath.row], sender: self)
-//        if let cvc = splitViewDetailViewController {
-//            let toDoList = toDoDocuments[indexPath.row]
-//            cvc.tableData = toDoList.taskList
-//            cvc.timeData = toDoList.timeList
-//            cvc.tableView.reloadData()
-//        } else if let cvc = lastSeguedToViewController {
-//            navigationController?.pushViewController(cvc, animated: true)
-//        }
     }
+     */
     
     
      // MARK: - Navigation
@@ -142,31 +132,10 @@ class ToDoDocumentsTableViewController: UITableViewController {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         if segue.identifier == "Choose To-Do List", let destination = segue.destination as? ViewController, let index = tableView.indexPathForSelectedRow?.row {
-            print(index)
             destination.tableData = toDoDocuments[index].taskList
             destination.timeData = toDoDocuments[index].timeList
-            print(toDoDocuments[index].taskList.count)
-            print(toDoDocuments[index].timeList.count)
             
         }
      }
     
-//    //MARK: Split View Controller
-//    func splitViewController(_ splitViewController: UISplitViewController,
-//                             collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-//        if let cvc = secondaryViewController as? ViewController {
-//
-//        }
-//        return false
-//    }
-//
-//
-//    private var splitViewDetailViewController: ViewController? { //last is the detail
-//        return splitViewController?.viewControllers.last as? ViewController
-//    }
-//
-//    private var lastSeguedToViewController: ViewController?
-//
-    
-
 }

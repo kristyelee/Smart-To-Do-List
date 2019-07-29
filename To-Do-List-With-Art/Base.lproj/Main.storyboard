@@ -122,6 +122,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xa9-eb-VHS">
                                         <rect key="frame" x="50" y="177" width="30" height="30"/>
                                         <state key="normal" title="Edit"/>
+                                        <connections>
+                                            <action selector="edit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zyd-sw-0o6"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q6H-qb-Vyx">
                                         <rect key="frame" x="655" y="177" width="63" height="30"/>
@@ -156,6 +159,7 @@
                     </view>
                     <connections>
                         <outlet property="drawingCanvas" destination="YP5-DL-Ial" id="L5J-zb-nSl"/>
+                        <outlet property="editButton" destination="Xa9-eb-VHS" id="fGC-g8-WXE"/>
                         <outlet property="tableView" destination="ihG-FR-mLG" id="zXN-n2-YQP"/>
                     </connections>
                 </viewController>

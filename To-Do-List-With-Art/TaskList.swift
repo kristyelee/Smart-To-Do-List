@@ -10,11 +10,11 @@ import Foundation
 
 class TaskList {
     var name: String
-    var taskList = [String]()
-    var timeList = [String]()
+    var taskList = StringArrayList(array: [String]())
+    var timeList = StringArrayList(array: [String]())
     
     
-    init(name: String, taskList: [String], timeList: [String]) {
+    init(name: String, taskList: StringArrayList, timeList: StringArrayList) {
         self.name = name
         self.taskList = taskList
         self.timeList = timeList

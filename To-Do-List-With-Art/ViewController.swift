@@ -27,8 +27,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if tableData.count > 0 {
-            print(tableData[0])
+        if tableData.count() > 0 {
+            print(tableData.get(at: 0))
         }
         self.tableView.reloadData()
     }
@@ -36,8 +36,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: Properties
     @IBOutlet weak var drawingCanvas: UIView!
     @IBOutlet weak var tableView: UITableView!
-    var tableData = [String]()
-    var timeData = [String]()
+    @IBOutlet weak var editButton: UIButton!
+    var tableData = StringArrayList(array: [String]())
+    var timeData = StringArrayList(array: [String]())
     
     //MARK: Table View
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,7 +47,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return tableData.count()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,8 +58,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //cell.detailTextLabel?.text = tableData[indexPath.row]
             
             if let taskCell = cell as? TaskTableViewCell {
-                taskCell.taskName.text = tableData[indexPath.row]
-                taskCell.timeName.text = timeData[indexPath.row]
+                taskCell.taskName.text = tableData.get(at: indexPath.row)
+                taskCell.timeName.text = timeData.get(at: indexPath.row)
                 return taskCell
             }
             return cell
@@ -77,6 +78,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
+    
+    // Override to support rearranging the table view.
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let task = tableData.get(at: fromIndexPath.row)
+        let time = timeData.get(at: fromIndexPath.row)
+        tableData.remove(at: fromIndexPath.row)
+        timeData.remove(at: fromIndexPath.row)
+        tableData.insert(task, at: to.row)
+        timeData.insert(time, at: to.row)
+        
+    }
+    
+    // Override to support conditional rearranging of the table view.
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    
+    
     
     //MARK: Action
     @IBAction func addTask(_ sender: Any) {
@@ -97,6 +117,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.present(alert, animated: true)
     }
     
+    
+    
     func taskTextField(_ textField: UITextField) {
         taskTextField = textField
         taskTextField?.placeholder = "Task name"
@@ -116,6 +138,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
+    @IBAction func edit(_ sender: UIButton) {
+        if self.tableView.isEditing {
+            self.tableView.isEditing = false
+            editButton.setTitle("Edit", for: UIControl.State.normal)
+            
+        } else {
+            self.tableView.isEditing = true
+            editButton.setTitle("Done", for: UIControl.State.normal)
+        }
+    }
     
 }
 
