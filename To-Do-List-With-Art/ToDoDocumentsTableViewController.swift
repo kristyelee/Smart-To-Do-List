@@ -23,11 +23,41 @@ class ToDoDocumentsTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return UIInterfaceOrientationMask.portrait
+            } else {
+                return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
+            }
+        }
+        
+    }
     
-//    override func awakeFromNib() {
-//        splitViewController?.delegate = self
-//    }
+    func supportedInterfaceOrientations(for window: UIWindow?) -> UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return UIInterfaceOrientationMask.portrait
+        } else {
+            return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
+        }
+    }
     
+    var shouldAutorotateToInterfaceOrientation: Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    override var shouldAutorotate: Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return false
+        } else {
+            return true
+        }
+    }
+
     
     // MARK: - Table view data source UITableViewDataSource
     
