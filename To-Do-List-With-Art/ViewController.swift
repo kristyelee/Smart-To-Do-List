@@ -26,6 +26,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if tableData.count > 0 {
+            print(tableData[0])
+        }
+        self.tableView.reloadData()
+    }
+    
     //MARK: Properties
     @IBOutlet weak var drawingCanvas: UIView!
     @IBOutlet weak var tableView: UITableView!

@@ -142,20 +142,12 @@ class ToDoDocumentsTableViewController: UITableViewController {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         if segue.identifier == "Choose To-Do List", let destination = segue.destination as? ViewController, let index = tableView.indexPathForSelectedRow?.row {
+            print(index)
             destination.tableData = toDoDocuments[index].taskList
             destination.timeData = toDoDocuments[index].timeList
+            print(toDoDocuments[index].taskList.count)
+            print(toDoDocuments[index].timeList.count)
             
-            
-//            if let button = sender as? UIButton { //because sender is a optional Any type
-//                if let themeName = button.currentTitle {
-//                    if let theme = themes[themeName] {
-//                        if let cvc = segue.destination as? ConcentrationViewController {
-//                            cvc.theme = theme
-//                            lastSeguedToConcentrationViewController = cvc
-//                        }
-//                    }
-//                }
-//            }
         }
      }
     
