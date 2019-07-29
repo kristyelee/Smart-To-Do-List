@@ -41,12 +41,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if tableView == self.tableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
             // Configure the cell...
+            //cell.textLabel?.text = tableData[indexPath.row]
+            //cell.detailTextLabel?.text = tableData[indexPath.row]
+            
             if let taskCell = cell as? TaskTableViewCell {
                 taskCell.taskName.text = tableData[indexPath.row]
                 taskCell.timeName.text = timeData[indexPath.row]
                 return taskCell
             }
-            //cell.textLabel?.text = tableData[indexPath.row]
             return cell
         }
         return UITableViewCell()
@@ -55,7 +57,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: Action
     @IBAction func addTask(_ sender: Any) {
         let alert = UIAlertController(title: "Add Task",
-                                      message: "Please enter task and time (date, hours, etc. formatted however you like) to get task done by.",
+                                      message: "Please enter task and time (date or hours) to get task done by.",
                                       preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: taskTextField)
@@ -78,7 +80,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func timeTextField(_ textField: UITextField) {
         timeTextField = textField
-        timeTextField?.placeholder = "Date(#/#/#), hours, etc"
+        timeTextField?.placeholder = "Date(Wed 3/14), hours (5 hours)"
     }
     
     func addHandler(_ alert: UIAlertAction!) {
