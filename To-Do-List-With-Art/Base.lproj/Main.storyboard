@@ -27,7 +27,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="showDetail" id="VL2-F1-TaQ"/>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" identifier="Choose To-Do List" id="VL2-F1-TaQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

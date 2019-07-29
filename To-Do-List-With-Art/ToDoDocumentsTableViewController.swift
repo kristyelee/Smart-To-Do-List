@@ -23,6 +23,12 @@ class ToDoDocumentsTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
     
+    
+//    override func awakeFromNib() {
+//        splitViewController?.delegate = self
+//    }
+    
+    
     // MARK: - Table view data source UITableViewDataSource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,15 +119,59 @@ class ToDoDocumentsTableViewController: UITableViewController {
         return true
      }
     
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //ViewController.tableData = toDoDocuments[indexPath.row].taskList
+        //ViewController.timeData = toDoDocuments[indexPath.row].timeList
+        //performSegue(withIdentifier: toDoDocuments[indexPath.row], sender: self)
+//        if let cvc = splitViewDetailViewController {
+//            let toDoList = toDoDocuments[indexPath.row]
+//            cvc.tableData = toDoList.taskList
+//            cvc.timeData = toDoList.timeList
+//            cvc.tableView.reloadData()
+//        } else if let cvc = lastSeguedToViewController {
+//            navigationController?.pushViewController(cvc, animated: true)
+//        }
+    }
     
-    /*
+    
      // MARK: - Navigation
-     
+     /*
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
-     }
-     */
+        if segue.identifier == "Choose To-Do List" {
+            
+//            if let button = sender as? UIButton { //because sender is a optional Any type
+//                if let themeName = button.currentTitle {
+//                    if let theme = themes[themeName] {
+//                        if let cvc = segue.destination as? ConcentrationViewController {
+//                            cvc.theme = theme
+//                            lastSeguedToConcentrationViewController = cvc
+//                        }
+//                    }
+//                }
+//            }
+        }
+     }*/
+    
+//    //MARK: Split View Controller
+//    func splitViewController(_ splitViewController: UISplitViewController,
+//                             collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+//        if let cvc = secondaryViewController as? ViewController {
+//
+//        }
+//        return false
+//    }
+//
+//
+//    private var splitViewDetailViewController: ViewController? { //last is the detail
+//        return splitViewController?.viewControllers.last as? ViewController
+//    }
+//
+//    private var lastSeguedToViewController: ViewController?
+//
+    
 
 }
