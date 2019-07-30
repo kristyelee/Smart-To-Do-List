@@ -8,7 +8,7 @@
 
 import Foundation
 
-class StringArrayList {
+class StringArrayList: NSObject {
     
     var array: [String]
     

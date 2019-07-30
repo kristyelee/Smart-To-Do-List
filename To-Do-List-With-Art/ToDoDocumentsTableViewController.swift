@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import os.log
 
 class ToDoDocumentsTableViewController: UITableViewController {
 
     var listTextField: UITextField?
-    var toDoDocuments = [TaskList(name: "To-Do List", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))]
-    lazy var toDoNames = toDoDocuments.map { $0.name }
+    static var toDoDocuments = [TaskList(name: "To-Do List", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))]
+    lazy var toDoNames = ToDoDocumentsTableViewController.toDoDocuments.map { $0.name }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,43 +22,16 @@ class ToDoDocumentsTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return UIInterfaceOrientationMask.portrait
-            } else {
-                return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-            }
-        }
         
+        //if let savedLists = loadToDoLists() {
+        //    ToDoDocumentsTableViewController.toDoDocuments += savedLists
+        //}
     }
     
-    func supportedInterfaceOrientations(for window: UIWindow?) -> UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return UIInterfaceOrientationMask.portrait
-        } else {
-            return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    
-    var shouldAutorotateToInterfaceOrientation: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    override var shouldAutorotate: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
-
     
     // MARK: - Table view data source UITableViewDataSource
     
@@ -66,14 +40,14 @@ class ToDoDocumentsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoDocuments.count
+        return ToDoDocumentsTableViewController.toDoDocuments.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
         // Configure the cell...
-        cell.textLabel?.text = toDoDocuments[indexPath.row].name
+        cell.textLabel?.text = ToDoDocumentsTableViewController.toDoDocuments[indexPath.row].name
         
         return cell
     }
@@ -103,7 +77,8 @@ class ToDoDocumentsTableViewController: UITableViewController {
     }
 
     func addHandler(_ alert: UIAlertAction!) {
-        toDoDocuments.append(TaskList(name: listTextField?.text?.madeUnique(withRespectTo: toDoNames) ?? "n/a", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]())))
+        ToDoDocumentsTableViewController.toDoDocuments.append(TaskList(name: listTextField?.text?.madeUnique(withRespectTo: toDoNames) ?? "n/a", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]())))
+        //saveToDoLists()
         tableView.reloadData()
     }
     
@@ -113,34 +88,23 @@ class ToDoDocumentsTableViewController: UITableViewController {
         return true
     }
   
-    /*
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if splitViewController?.preferredDisplayMode != .primaryOverlay {
-            splitViewController?.preferredDisplayMode = .primaryOverlay
-        }
-    }
-    */
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            toDoDocuments.remove(at: indexPath.row)
+            ToDoDocumentsTableViewController.toDoDocuments.remove(at: indexPath.row)
+            //saveToDoLists()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     
-    
-    
-    
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let toDoList = toDoDocuments[fromIndexPath.row]
-        toDoDocuments.remove(at: fromIndexPath.row)
-        toDoDocuments.insert(toDoList, at: to.row)
+        let toDoList = ToDoDocumentsTableViewController.toDoDocuments[fromIndexPath.row]
+        ToDoDocumentsTableViewController.toDoDocuments.remove(at: fromIndexPath.row)
+        ToDoDocumentsTableViewController.toDoDocuments.insert(toDoList, at: to.row)
      }
  
      // Override to support conditional rearranging of the table view.
@@ -149,10 +113,11 @@ class ToDoDocumentsTableViewController: UITableViewController {
         return true
      }
     
+    
     /*
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
-     */
+    */
     
     
      // MARK: - Navigation
@@ -162,10 +127,41 @@ class ToDoDocumentsTableViewController: UITableViewController {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         if segue.identifier == "Choose To-Do List", let destination = segue.destination as? ViewController, let index = tableView.indexPathForSelectedRow?.row {
-            destination.tableData = toDoDocuments[index].taskList
-            destination.timeData = toDoDocuments[index].timeList
+            destination.tableData = ToDoDocumentsTableViewController.toDoDocuments[index].taskList
+            destination.timeData = ToDoDocumentsTableViewController.toDoDocuments[index].timeList
             
         }
      }
     
+//    private func saveToDoLists() {
+//        do {
+//            let data = try NSKeyedArchiver.archivedData(withRootObject: ToDoDocumentsTableViewController.toDoDocuments, requiringSecureCoding: false)
+//            print("Saved files")
+//            try data.write(to: TaskList.ArchiveURL)
+//        } catch {
+//            print("Couldn't write file")
+//        }
+////        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(ToDoDocumentsTableViewController.toDoDocuments, toFile: TaskList.ArchiveURL.path)
+////        if isSuccessfulSave {
+////            os_log("To-do lists successfully saved.", log: OSLog.default, type: .debug)
+////        } else {
+////            os_log("Failed to save to-do lists...", log: OSLog.default, type: .error)
+////        }
+//    }
+//
+//    private func loadToDoLists() -> [TaskList]?  {
+//        //return NSKeyedUnarchiver.unarchiveObject(withFile: TaskList.ArchiveURL.path) as? [TaskList]
+//        do {
+//            let data = try NSKeyedArchiver.archivedData(withRootObject: ToDoDocumentsTableViewController.toDoDocuments, requiringSecureCoding: false)
+//            if let loadedTaskLists = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [TaskList] {
+//                return loadedTaskLists
+//            }
+//        } catch {
+//            print("Couldn't read file.")
+//        }
+//        return [TaskList]()
+//    }
+
+    
 }
+

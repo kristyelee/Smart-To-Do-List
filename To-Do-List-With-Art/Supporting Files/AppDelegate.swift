@@ -13,40 +13,6 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return UIInterfaceOrientationMask.portrait
-            } else {
-                return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-            }
-        }
-        
-    }
-    
-    func supportedInterfaceOrientations(for window: UIWindow?) -> UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return UIInterfaceOrientationMask.portrait
-        } else {
-            return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-        }
-    }
-    
-    var shouldAutorotate: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
-    var shouldAutorotateToInterfaceOrientation: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

@@ -17,7 +17,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //tableView.draw()
         }
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,47 +25,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
     
     }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return UIInterfaceOrientationMask.portrait
-            } else {
-                return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-            }
-        }
         
-    }
-    
-    func supportedInterfaceOrientations(for window: UIWindow?) -> UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return UIInterfaceOrientationMask.portrait
-        } else {
-            return UIInterfaceOrientationMask.allButUpsideDown //return the value as per the required orientation
-        }
-    }
-   
-    var shouldAutorotateToInterfaceOrientation: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    override var shouldAutorotate: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return false
-        } else {
-            return true
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
-        if tableData.count() > 0 {
-            print(tableData.get(at: 0))
+        if ToDoDocumentsTableViewController.toDoDocuments.count == 1 {
+            tableData = ToDoDocumentsTableViewController.toDoDocuments[0].taskList
+            timeData = ToDoDocumentsTableViewController.toDoDocuments[0].timeList
         }
+        self.tableView.isOpaque = false
+        self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.30))
+        self.tableView.separatorColor = #colorLiteral(red: 0.04789453745, green: 0.1055381522, blue: 0.2773030698, alpha: 1)
         self.tableView.reloadData()
+    
     }
     
     //MARK: Properties
