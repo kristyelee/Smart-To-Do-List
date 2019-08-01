@@ -20,22 +20,22 @@ class DrawingCanvasView: UIView {
     override func draw(_ rect: CGRect) {
         // Drawing code
         //temporary
-        step = 50
+        step = 75
         
-        if step <= 50 {
-            let root = CGPoint(x: bounds.width / 2, y: bounds.height - bounds.height * 0.1)
-            let path = UIBezierPath()
+        if step <= 75 {
+            var root = CGPoint(x: bounds.width / 2, y: bounds.height - bounds.height * 0.1)
+            var path = UIBezierPath()
             path.move(to: root)
             var savedPoint: CGPoint
             
+            //ROOT -- 12 steps
             path.move(to: root)
             savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.6, y: (bounds.height - bounds.height * 0.1) + (bounds.height - bounds.height * 0.1) * 0.05)
             path.addLine(to: savedPoint)
-            path.lineWidth = 6.0
+            path.lineWidth = 9.0
             path.stroke(with: CGBlendMode.normal, alpha: 0.30)
-            #colorLiteral(red: 0.3098039329, green: 0.2039215714, blue: 0.03921568766, alpha: 1).setStroke()
+            #colorLiteral(red: 0.5255207419, green: 0.3507483006, blue: 0.05954154581, alpha: 1).setStroke()
             path.stroke()
-            
             path.move(to: root)
             savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.35, y: (bounds.height - bounds.height * 0.1) + (bounds.height - bounds.height * 0.1) * 0.05)
             path.addLine(to: savedPoint)
@@ -56,6 +56,75 @@ class DrawingCanvasView: UIView {
             savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.6, y: (bounds.height - bounds.height * 0.1) + (bounds.height - bounds.height * 0.1) * 0.05)
             path.addLine(to: savedPoint)
             path.stroke()
+            
+            //Stem -- 8 steps
+            path = UIBezierPath()
+            path.move(to: root)
+            path.lineWidth = 16.0
+            savedPoint = CGPoint(x: root.x, y: root.y - bounds.height * 0.4)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            root = CGPoint(x: root.x, y: root.y - bounds.height * 0.4 + (root.y - bounds.height * 0.4) * 0.01)
+            
+            
+            //Branches: 4 steps to each midway point, 6 branches --> 48 steps
+            path = UIBezierPath()
+            path.lineWidth = 10.0
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.5, y: root.y)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.95, y: root.y - root.y * 0.1)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.55, y: root.y - root.y * 0.20)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.80, y: root.y - root.y * 0.55)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.325, y: root.y - root.y * 0.3)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.50, y: root.y - root.y * 0.65)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.325, y: root.y - root.y * 0.3)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.50, y: root.y - root.y * 0.65)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.55, y: root.y - root.y * 0.20)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.80, y: root.y - root.y * 0.55)
+            path.addLine(to: savedPoint)
+            path.stroke()
+
+            path.move(to: root)
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.5, y: root.y)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.95, y: root.y - root.y * 0.1)
+            path.addLine(to: savedPoint)
+            path.stroke()
+            
+            
             step = 25
         }
         
@@ -68,7 +137,7 @@ class DrawingCanvasView: UIView {
                 var center = CGPoint(x: (bounds.width).arc4random, y: (bounds.height - 100).arc4random)
                 var startAngle = 3*CGFloat(Double.pi)/2
                 var endAngle = CGFloat(0)
-                var radius = (bounds.width / 40).arc4random //Initial radius
+                var radius = (bounds.width / 60).arc4random //Initial radius
                 
                 // Use UIBezierPath to create the CGPath for the layer
                 // The path should be the entire spiral
@@ -78,7 +147,6 @@ class DrawingCanvasView: UIView {
                 let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
                 
                 if stepper > 0 {
-                    // 2 - 9 arcs
                     for _ in 0..<(min(4, stepper) * 2) {
                         
                         startAngle = endAngle

@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             ViewController.taskList = ToDoDocumentsTableViewController.toDoDocuments[0]
         }
         self.tableView.isOpaque = false
-        self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.30))
+        self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.45))
         self.tableView.separatorColor = #colorLiteral(red: 0.04789453745, green: 0.1055381522, blue: 0.2773030698, alpha: 1)
         self.tableView.reloadData()
         self.step = ViewController.taskList.step
