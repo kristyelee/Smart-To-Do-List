@@ -16,12 +16,14 @@ class TaskList: NSObject, NSCoding/*, Codable*/ {
     var name: String
     var taskList = StringArrayList(array: [String]())
     var timeList = StringArrayList(array: [String]())
+    var step: Int
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     //static let ArchiveURL = DocumentsDirectory.appendingPathComponent("taskLists")
-    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("taskLists")
-    //let randomFilename = UUID().uuidString
+    static let randomFilename = UUID().uuidString
+    static let ArchiveURL = getDocumentsDirectory().appendingPathComponent(randomFilename)
+    
     
     static func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -38,11 +40,15 @@ class TaskList: NSObject, NSCoding/*, Codable*/ {
     }
     
     
+    
     //MARK: Initialization
     init(name: String, taskList: StringArrayList, timeList: StringArrayList) {
         self.name = name
         self.taskList = taskList
         self.timeList = timeList
+        self.step = 0
+        
+        
     }
     
     

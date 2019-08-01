@@ -12,11 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var taskTextField: UITextField?
     var timeTextField: UITextField?
-    static var counter = 0 {
-        didSet {
-            //tableView.draw()
-        }
-    }
+    var step: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,20 +26,50 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if ToDoDocumentsTableViewController.toDoDocuments.count == 1 {
             tableData = ToDoDocumentsTableViewController.toDoDocuments[0].taskList
             timeData = ToDoDocumentsTableViewController.toDoDocuments[0].timeList
+            ViewController.taskList = ToDoDocumentsTableViewController.toDoDocuments[0]
         }
         self.tableView.isOpaque = false
         self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.30))
         self.tableView.separatorColor = #colorLiteral(red: 0.04789453745, green: 0.1055381522, blue: 0.2773030698, alpha: 1)
         self.tableView.reloadData()
-    
+        self.step = ViewController.taskList.step
+        self.drawingCanvas.step = self.step
+        self.drawingCanvas.setNeedsDisplay()
+        self.drawingCanvas.setNeedsLayout()
+        
     }
     
     //MARK: Properties
-    @IBOutlet weak var drawingCanvas: UIView!
-    @IBOutlet weak var tableView: UITableView!
+    
+    
+    @IBOutlet weak var drawingCanvas: DrawingCanvasView! {
+        didSet {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(increment))
+            drawingCanvas.addGestureRecognizer(tap) //must have the view recognize the tap
+        }
+    }
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(increment))
+            tableView.addGestureRecognizer(tap) //must have the view recognize the tap
+        }
+    }
+    
+    @objc func increment() {
+        print("click is working")
+        tableView.reloadData()
+        print(self.step)
+        print(drawingCanvas.step)
+        if drawingCanvas.step != self.step {
+            drawingCanvas.step = self.step
+            print(drawingCanvas.step)
+        }
+    }
+    
     @IBOutlet weak var editButton: UIButton!
     var tableData = StringArrayList(array: [String]())
     var timeData = StringArrayList(array: [String]())
+    static var taskList = TaskList(name: "name", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))
     
     //MARK: Table View
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,6 +91,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let taskCell = cell as? TaskTableViewCell {
                 taskCell.taskName.text = tableData.get(at: indexPath.row)
                 taskCell.timeName.text = timeData.get(at: indexPath.row)
+                cell.contentView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.20))
+                cell.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.20))
+                self.step = ViewController.taskList.step
                 return taskCell
             }
             return cell

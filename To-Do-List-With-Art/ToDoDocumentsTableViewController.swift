@@ -23,9 +23,9 @@ class ToDoDocumentsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
-        //if let savedLists = loadToDoLists() {
-        //    ToDoDocumentsTableViewController.toDoDocuments += savedLists
-        //}
+//        if let savedLists = loadToDoLists() {
+//            ToDoDocumentsTableViewController.toDoDocuments += savedLists
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,9 +129,16 @@ class ToDoDocumentsTableViewController: UITableViewController {
         if segue.identifier == "Choose To-Do List", let destination = segue.destination as? ViewController, let index = tableView.indexPathForSelectedRow?.row {
             destination.tableData = ToDoDocumentsTableViewController.toDoDocuments[index].taskList
             destination.timeData = ToDoDocumentsTableViewController.toDoDocuments[index].timeList
-            
+            ViewController.taskList = ToDoDocumentsTableViewController.toDoDocuments[index]
         }
      }
+  
+    
+    
+    
+    
+    
+    
     
 //    private func saveToDoLists() {
 //        do {
@@ -141,27 +148,27 @@ class ToDoDocumentsTableViewController: UITableViewController {
 //        } catch {
 //            print("Couldn't write file")
 //        }
-////        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(ToDoDocumentsTableViewController.toDoDocuments, toFile: TaskList.ArchiveURL.path)
-////        if isSuccessfulSave {
-////            os_log("To-do lists successfully saved.", log: OSLog.default, type: .debug)
-////        } else {
-////            os_log("Failed to save to-do lists...", log: OSLog.default, type: .error)
-////        }
+//////        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(ToDoDocumentsTableViewController.toDoDocuments, toFile: TaskList.ArchiveURL.path)
+//////        if isSuccessfulSave {
+//////            os_log("To-do lists successfully saved.", log: OSLog.default, type: .debug)
+//////        } else {
+//////            os_log("Failed to save to-do lists...", log: OSLog.default, type: .error)
+//////        }
 //    }
 //
 //    private func loadToDoLists() -> [TaskList]?  {
-//        //return NSKeyedUnarchiver.unarchiveObject(withFile: TaskList.ArchiveURL.path) as? [TaskList]
+////        //return NSKeyedUnarchiver.unarchiveObject(withFile: TaskList.ArchiveURL.path) as? [TaskList]
 //        do {
-//            let data = try NSKeyedArchiver.archivedData(withRootObject: ToDoDocumentsTableViewController.toDoDocuments, requiringSecureCoding: false)
+//           let data = try NSKeyedArchiver.archivedData(withRootObject: ToDoDocumentsTableViewController.toDoDocuments, requiringSecureCoding: false)
 //            if let loadedTaskLists = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [TaskList] {
 //                return loadedTaskLists
 //            }
 //        } catch {
-//            print("Couldn't read file.")
+//           print("Couldn't read file.")
 //        }
 //        return [TaskList]()
 //    }
-
-    
+//
+//
 }
 
