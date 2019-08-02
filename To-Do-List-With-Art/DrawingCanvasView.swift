@@ -20,24 +20,29 @@ class DrawingCanvasView: UIView {
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code
-        //temporary
-        step = 75
+        step = 100
         var caseStep = 0
+        var modulo = 0
         
         if (step <= 25 && step > 0) {
             caseStep = 1 //Spiral
-        } else if (step % 100 <= 75 && step % 100 >= 25) {
+        } else if (step % 100 <= 75 && step % 100 > 25) {
             caseStep = 2 //Spiral and Tree
-        } else if (step >= 100 && (step % 100 == 0 || step % 100 >= 75)) {
+        } else if (step % 100 == 0 || step % 100 > 75) {
             caseStep = 3 //Firework and Tree
-        } else if (step >= 100 && (step % 100 <= 25)) {
+            if step % 100 == 0 {
+                modulo = 25
+            } else {
+                modulo = step % 100 - 75
+            }
+        } else if (step > 100 && (step % 100 <= 25)) {
             caseStep = 4
         }
         
         switch (caseStep) {
         case 1: drawSpiral(step)
         case 2: drawSpiral(25); drawTree(step % 100 - 25)
-        case 3: drawTree(50); drawFireworks(step % 100 - 75)
+        case 3: drawTree(50); drawFireworks(modulo)
         case 4: drawFireworks(25); drawSpiral(step % 100)
         default: drawSpiral(1)
         }
@@ -48,103 +53,87 @@ class DrawingCanvasView: UIView {
         var root = CGPoint(x: bounds.width / 2, y: bounds.height - bounds.height * 0.1)
         var path = UIBezierPath()
         var savedPoint: CGPoint
-        
-        //ROOT -- 12 steps
-        path.move(to: root)
-        let rootArray = makeRootArray()
-        savedPoint = rootArray[0]
-        path.addLine(to: savedPoint)
         path.lineWidth = 9.0
         path.stroke(with: CGBlendMode.normal, alpha: 0.30)
         #colorLiteral(red: 0.913316071, green: 0.7689850926, blue: 0.5155162811, alpha: 1).setStroke()
-        path.stroke()
+        
+        //Root -- 12 steps
         path.move(to: root)
-        savedPoint = rootArray[1]
-        path.addLine(to: savedPoint)
-        path.stroke()
-        path.move(to: root)
-        savedPoint = rootArray[2]
-        path.addLine(to: savedPoint)
-        path.stroke()
-        path.move(to: root)
-        savedPoint = rootArray[3]
-        path.addLine(to: savedPoint)
-        path.stroke()
-        path.move(to: root)
-        savedPoint = rootArray[4]
-        path.addLine(to: savedPoint)
-        path.stroke()
-        path.move(to: root)
-        savedPoint = rootArray[5]
-        path.addLine(to: savedPoint)
-        path.stroke()
+        var rootArrayIndex = 0
+        let rootArray = makeRootArray()
+        for index in 1..<min(13, step + 1) {
+            if index % 2 != 0 {
+                let midPoint = makeMidPoint(root, rootArray[rootArrayIndex])
+                path.addLine(to: midPoint)
+                path.stroke()
+            } else {
+                path.addLine(to: rootArray[rootArrayIndex])
+                path.stroke()
+                rootArrayIndex += 1
+                path.move(to: root)
+            }
+        }
         
         //Stem -- 14 steps
-        path = UIBezierPath()
-        path.move(to: root)
-        path.lineWidth = 16.0
-        savedPoint = CGPoint(x: root.x, y: root.y - bounds.height * 0.4)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        root = CGPoint(x: root.x, y: root.y - bounds.height * 0.4 + (root.y - bounds.height * 0.4) * 0.01)
+        if step > 12 {
+            path = UIBezierPath()
+            path.move(to: root)
+            path.lineWidth = 16.0
+            savedPoint = CGPoint(x: root.x, y: root.y - bounds.height * 0.4)
+            let increment = bounds.height * 0.4 / 14
+            var deltaY = increment
+            for _ in 1..<min(15, step - 12 + 1) {
+                savedPoint = CGPoint(x: root.x, y: root.y - deltaY)
+                deltaY += increment
+                path.addLine(to: savedPoint)
+                path.stroke()
+            }
+            root = CGPoint(x: root.x, y: root.y - bounds.height * 0.4 + (root.y - bounds.height * 0.4) * 0.01)
+        }
         
-        
-        //Branches: 2 steps to each midway point, 3 pairs of branches --> 24 steps
-        path = UIBezierPath()
-        path.lineWidth = 10.0
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.5, y: root.y)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.95, y: root.y - root.y * 0.1)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.55, y: root.y - root.y * 0.20)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.80, y: root.y - root.y * 0.55)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.325, y: root.y - root.y * 0.3)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.50, y: root.y - root.y * 0.65)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.325, y: root.y - root.y * 0.3)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.50, y: root.y - root.y * 0.65)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.55, y: root.y - root.y * 0.20)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.80, y: root.y - root.y * 0.55)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        path.move(to: root)
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.5, y: root.y)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        savedPoint = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.95, y: root.y - root.y * 0.1)
-        path.addLine(to: savedPoint)
-        path.stroke()
+        //Branches -- 2 steps to each midway point, 3 pairs of branches --> 24 steps
+        if step > 26 {
+            path = UIBezierPath()
+            path.lineWidth = 10.0
+            path.move(to: root)
+            var root2 = root
+            let branchLeftArray = makeLeftBranchArray(root.y)
+            let branchRightArray = makeRightBranchArray(root.y)
+            var branchIndex = 0
+            for index in 1..<min(25, step - 26 + 1) {
+                if index % 4 == 1 {
+                    let midpoint = makeMidPoint(root2, branchLeftArray[branchIndex])
+                    path.addLine(to: midpoint)
+                    path.stroke()
+                } else if index % 4 == 2 {
+                    path.addLine(to: branchLeftArray[branchIndex])
+                    path.stroke()
+                    if branchIndex % 2 == 0 {
+                        root2 = root
+                        path.move(to: root2)
+                    } else {
+                        root2 = branchRightArray[branchIndex-1]
+                        path.move(to: root2)
+                    }
+                } else if index % 4 == 3 {
+                    let midpoint = makeMidPoint(root2, branchRightArray[branchIndex])
+                    path.addLine(to: midpoint)
+                    path.stroke()
+                } else {
+                    path.addLine(to: branchRightArray[branchIndex])
+                    path.stroke()
+                    branchIndex += 1
+                    if branchIndex % 2 == 0 {
+                        root2 = root
+                        path.move(to: root2)
+                    } else {
+                        root2 = branchLeftArray[branchIndex-1]
+                        path.move(to: root2)
+                    }
+                }
+            }
+            ///
+        }
     }
     
     func drawSpiral(_ step: Int) {
@@ -202,43 +191,29 @@ class DrawingCanvasView: UIView {
     }
     
     func drawFireworks(_ step: Int) {
-        var path = UIBezierPath()
+        let path = UIBezierPath()
         var root = CGPoint(x: bounds.width / 2, y: bounds.height - bounds.height * 0.1)
         root = CGPoint(x: root.x, y: root.y - bounds.height * 0.4 + (root.y - bounds.height * 0.4) * 0.01)
         path.move(to: root)
-        
-        
-        //1
-        var savedPoint = CGPoint(x: root.x - root.x * 0.90, y: root.y + root.y * 0.20)
-        path.addLine(to: savedPoint)
         path.lineWidth = 30.0
         path.stroke(with: CGBlendMode.normal, alpha: 0.30)
         #colorLiteral(red: 0.7458879352, green: 0.9206150174, blue: 0.937274754, alpha: 1).setStroke()
-        path.stroke()
+        let fireworkArray = makeFireworkArray(root.x, root.y)
+        var fireworkIndex = 0
+        let startPointArray = [root, CGPoint(x: root.x * 1.025, y: root.y - root.y * 0.05), CGPoint(x: root.x + root.x * 0.1, y: root.y - root.y * 0.05), CGPoint(x: root.x + root.x * 0.1, y: root.y + root.y * 0.025), CGPoint(x: root.x + root.x * 0.05, y: root.y + root.y * 0.05), root]
         
-        //2
-        path.move(to: CGPoint(x: root.x * 1.025, y: root.y - root.y * 0.05))
-        savedPoint = CGPoint(x: root.x - root.x * 0.65, y: root.y - root.y * 0.65)
-        path.addLine(to: savedPoint)
-        path.stroke()
+        for index in 0..<min(25, step) {
+            let array = getFireworkStepArray(startPointArray[fireworkIndex], fireworkArray[fireworkIndex])
+            path.addLine(to: array[index % 5])
+            path.stroke()
+            if index % 5 == 4 {
+                fireworkIndex+=1
+                path.move(to: startPointArray[fireworkIndex])
+            }
+            
+        }
         
-        //3
-        path.move(to: CGPoint(x: root.x + root.x * 0.1, y: root.y - root.y * 0.05))
-        savedPoint = CGPoint(x: root.x + root.x * 0.60, y: root.y - root.y * 0.65)
-        path.addLine(to: savedPoint)
-        path.stroke()
         
-        //4
-        path.move(to: CGPoint(x: root.x + root.x * 0.1, y: root.y + root.y * 0.025))
-        savedPoint = CGPoint(x: root.x + root.x * 0.925, y: root.y * 1.30)
-        path.addLine(to: savedPoint)
-        path.stroke()
-        
-        //5
-        path.move(to: CGPoint(x: root.x + root.x * 0.05, y: root.y + root.y * 0.05))
-        savedPoint = CGPoint(x: root.x - root.x * 0.15, y: root.y * 1.75)
-        path.addLine(to: savedPoint)
-        path.stroke()
     }
     
     func redraw() {
@@ -257,8 +232,8 @@ class DrawingCanvasView: UIView {
         return randNum
     }
     
-    func midPoint(_ endPoint: CGPoint) -> CGPoint {
-        return CGPoint(x: endPoint.x / 2, y: endPoint.y / 2)
+    func makeMidPoint(_ startPoint: CGPoint, _ endPoint: CGPoint) -> CGPoint {
+        return CGPoint(x: (startPoint.x + endPoint.x) / 2, y: (startPoint.y + endPoint.y) / 2)
     }
     
     func makeRootArray() -> [CGPoint] {
@@ -271,7 +246,55 @@ class DrawingCanvasView: UIView {
         let rootArray = [root1, root2, root3, root4, root5, root6]
         return rootArray
     }
-
+    
+    func makeLeftBranchArray(_ rootY: CGFloat) -> [CGPoint] {
+        let branch1 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.5, y: rootY)
+        let branch3 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.95, y: rootY - rootY * 0.1)
+        let branch5 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.55, y: rootY - rootY * 0.20)
+        let branch7 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.80, y: rootY - rootY * 0.55)
+        let branch9 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.325, y: rootY - rootY * 0.3)
+        let branch11 = CGPoint(x: bounds.width / 2 - bounds.width / 2 * 0.50, y: rootY - rootY * 0.65)
+        let branchArray = [branch1, branch3, branch5, branch7, branch9, branch11]
+        return branchArray
+    }
+    
+    func makeRightBranchArray(_ rootY: CGFloat) -> [CGPoint] {
+        let branch2 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.5, y: rootY)
+        let branch4 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.95, y: rootY - rootY * 0.1)
+        let branch6 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.55, y: rootY - rootY * 0.20)
+        let branch8 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.80, y: rootY - rootY * 0.55)
+        let branch10 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.325, y: rootY - rootY * 0.3)
+        let branch12 = CGPoint(x: bounds.width / 2 + bounds.width / 2 * 0.50, y: rootY - rootY * 0.65)
+        let branchArray = [branch2, branch4, branch6, branch8, branch10, branch12]
+        return branchArray
+    }
+    
+    func makeFireworkArray(_ rootX: CGFloat, _ rootY: CGFloat) -> [CGPoint] {
+        let pt1 = CGPoint(x: rootX - rootX * 0.90, y: rootY + rootY * 0.20)
+        let pt2 = CGPoint(x: rootX - rootX * 0.65, y: rootY - rootY * 0.65)
+        let pt3 = CGPoint(x: rootX + rootX * 0.60, y: rootY - rootY * 0.65)
+        let pt4 = CGPoint(x: rootX + rootX * 0.925, y: rootY * 1.30)
+        let pt5 = CGPoint(x: rootX - rootX * 0.15, y: rootY * 1.75)
+        let ptArray = [pt1, pt2, pt3, pt4, pt5]
+        return ptArray
+    }
+    
+    func getFireworkStepArray(_ startingPoint: CGPoint, _ endingPoint: CGPoint) -> [CGPoint] {
+        let deltaX = endingPoint.x - startingPoint.x
+        let deltaY = endingPoint.y - startingPoint.y
+        let deltaXIncrement = deltaX/5
+        let deltaYIncrement = deltaY/5
+        var xInc = deltaXIncrement
+        var yInc = deltaYIncrement
+        var fireworkStepArray = [CGPoint]()
+        for _ in 0..<5 {
+            fireworkStepArray.append(CGPoint(x: startingPoint.x + xInc, y: startingPoint.y + yInc))
+            xInc += deltaXIncrement
+            yInc += deltaYIncrement
+        }
+        return fireworkStepArray
+    }
+    
 }
 
 
