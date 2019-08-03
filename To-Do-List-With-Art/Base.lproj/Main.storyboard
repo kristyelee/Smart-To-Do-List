@@ -159,7 +159,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="drawingCanvas" destination="YP5-DL-Ial" id="uu7-z0-IgU"/>
+                        <outlet property="drawingCanvas" destination="YP5-DL-Ial" id="XdW-ce-bTU"/>
                         <outlet property="editButton" destination="Xa9-eb-VHS" id="fGC-g8-WXE"/>
                         <outlet property="tableView" destination="ihG-FR-mLG" id="zXN-n2-YQP"/>
                     </connections>
