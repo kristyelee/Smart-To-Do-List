@@ -10,10 +10,6 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var taskTextField: UITextField?
-    var timeTextField: UITextField?
-    var step: Int = 0
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -26,56 +22,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if ToDoDocumentsTableViewController.toDoDocuments.count == 1 {
             tableData = ToDoDocumentsTableViewController.toDoDocuments[0].taskList
             timeData = ToDoDocumentsTableViewController.toDoDocuments[0].timeList
-            ViewController.taskList = ToDoDocumentsTableViewController.toDoDocuments[0]
+            taskList = ToDoDocumentsTableViewController.toDoDocuments[0]
         }
         self.tableView.isOpaque = false
-        self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.45))
+        self.tableView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.65))
         self.tableView.separatorColor = #colorLiteral(red: 0.04789453745, green: 0.1055381522, blue: 0.2773030698, alpha: 1)
         self.tableView.reloadData()
-        self.step = ViewController.taskList.step
+        self.step = taskList.step
         self.drawingCanvas.step = self.step
         self.drawingCanvas.setNeedsDisplay()
         self.drawingCanvas.setNeedsLayout()
-        
     }
     
     //MARK: Properties
-    
-    
-    @IBOutlet weak var drawingCanvas: DrawingCanvasView! {
-        didSet {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(increment))
-            drawingCanvas.addGestureRecognizer(tap) //must have the view recognize the tap
-        }
-    }
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(increment))
-            tableView.addGestureRecognizer(tap) //must have the view recognize the tap
-        }
-    }
-    
-    @objc func increment() {
-        print("click is working")
-        tableView.reloadData()
-        print(self.step)
-        print(drawingCanvas.step)
-        if drawingCanvas.step != self.step {
-            drawingCanvas.step = self.step
-            print(drawingCanvas.step)
-        }
-    }
-    
+    @IBOutlet weak var drawingCanvas: DrawingCanvasView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editButton: UIButton!
     var tableData = StringArrayList(array: [String]())
     var timeData = StringArrayList(array: [String]())
-    static var taskList = TaskList(name: "name", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))
+    var taskList = TaskList(name: "name", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))
+    var taskTextField: UITextField?
+    var timeTextField: UITextField?
+    var step: Int = 0
     
     //MARK: Table View
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count()
@@ -85,15 +60,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if tableView == self.tableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
             // Configure the cell...
-            //cell.textLabel?.text = tableData[indexPath.row]
-            //cell.detailTextLabel?.text = tableData[indexPath.row]
             
             if let taskCell = cell as? TaskTableViewCell {
                 taskCell.taskName.text = tableData.get(at: indexPath.row)
                 taskCell.timeName.text = timeData.get(at: indexPath.row)
                 cell.contentView.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.20))
                 cell.backgroundColor = UIColor(white: CGFloat(1), alpha: CGFloat(0.20))
-                self.step = ViewController.taskList.step
+                self.step = taskList.step
                 return taskCell
             }
             return cell
@@ -103,6 +76,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
+        if let taskCell = cell as? TaskTableViewCell {
+            if taskCell.checkButton.currentTitle == "✔" {
+                taskCell.checkButton.backgroundColor = #colorLiteral(red: 0.3932797313, green: 0.6405071616, blue: 0.8404534459, alpha: 1)
+            }
+        }
         if editingStyle == .delete {
             // Delete the row from the data source
             tableData.remove(at: indexPath.row)
@@ -131,7 +110,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    
     //MARK: Action
     @IBAction func addTask(_ sender: Any) {
         let alert = UIAlertController(title: "Add Task",
@@ -150,8 +128,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.present(alert, animated: true)
     }
-    
-    
     
     func taskTextField(_ textField: UITextField) {
         taskTextField = textField
@@ -181,6 +157,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.isEditing = true
             editButton.setTitle("Done", for: UIControl.State.normal)
         }
+    }
+    
+    @IBAction func checkTask(_ sender: UIButton) {
+        if (sender.currentTitle == " ") {
+            self.step += 1
+            taskList.step += 1
+            self.drawingCanvas.step = self.step
+            sender.setTitle("✔", for: UIControl.State.normal)
+            sender.backgroundColor = #colorLiteral(red: 0.3932797313, green: 0.6405071616, blue: 0.8404534459, alpha: 1)
+            print(taskList.step)
+        } else {
+            sender.setTitle(" ", for: UIControl.State.normal)
+            sender.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        }
+        
     }
     
 }

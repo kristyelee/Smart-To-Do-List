@@ -29,16 +29,6 @@ class TaskTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    @IBAction func checkTask(_ sender: UIButton) {
-        if sender.currentTitle == "✔" {
-            sender.setTitle("", for: UIControl.State.normal)
-            sender.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        } else {
-            sender.setTitle("✔", for: UIControl.State.normal)
-            sender.backgroundColor = #colorLiteral(red: 0.3932797313, green: 0.6405071616, blue: 0.8404534459, alpha: 1)
-            ViewController.taskList.step += 1
-            print(ViewController.taskList.step)
-            
-        }
-    }
+
+
 }

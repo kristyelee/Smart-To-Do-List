@@ -13,22 +13,25 @@ class DrawingCanvasView: UIView {
     
     @IBInspectable
     var step: Int = 0 { didSet {setNeedsDisplay(); setNeedsLayout() /*use when need to redraw*/ }}
-    var ccw: Bool = true
-    let colorArray = [UIColor.init(displayP3Red: CGFloat(2.0), green: CGFloat(2.0), blue: (2.0), alpha: CGFloat(1.0))]
+    
+    var colorBlueArray = [#colorLiteral(red: 0.7458879352, green: 0.9206150174, blue: 0.937274754, alpha: 1), #colorLiteral(red: 0.850831449, green: 0.9661218524, blue: 0.6844211221, alpha: 1), #colorLiteral(red: 0.6589035988, green: 0.9218665361, blue: 0.6415066123, alpha: 1), #colorLiteral(red: 0.7725490196, green: 1, blue: 0.8784313725, alpha: 1), #colorLiteral(red: 0.7725490196, green: 0.968627451, blue: 1, alpha: 1), #colorLiteral(red: 0.7254901961, green: 0.862745098, blue: 1, alpha: 1), #colorLiteral(red: 0.7960784314, green: 0.8196078431, blue: 1, alpha: 1), #colorLiteral(red: 0.850831449, green: 0.9661218524, blue: 0.6844211221, alpha: 1), #colorLiteral(red: 0.6589035988, green: 0.9218665361, blue: 0.6415066123, alpha: 1), #colorLiteral(red: 0.7725490196, green: 1, blue: 0.8784313725, alpha: 1), #colorLiteral(red: 0.7725490196, green: 0.968627451, blue: 1, alpha: 1), #colorLiteral(red: 0.7254901961, green: 0.862745098, blue: 1, alpha: 1), #colorLiteral(red: 0.7960784314, green: 0.8196078431, blue: 1, alpha: 1)]
+    var colorMorningArray = [#colorLiteral(red: 0.9970012307, green: 0.854180038, blue: 0.8097401261, alpha: 1), #colorLiteral(red: 1, green: 0.7955614924, blue: 0.6226267219, alpha: 1), #colorLiteral(red: 1, green: 0.9647058824, blue: 0.6039215686, alpha: 1), #colorLiteral(red: 0.9772595763, green: 0.9075548053, blue: 0.7779645324, alpha: 1), #colorLiteral(red: 0.9772595763, green: 0.9075548053, blue: 0.7779645324, alpha: 1), #colorLiteral(red: 0.9970012307, green: 0.854180038, blue: 0.8097401261, alpha: 1), #colorLiteral(red: 1, green: 0.7955614924, blue: 0.6226267219, alpha: 1), #colorLiteral(red: 1, green: 0.9647058824, blue: 0.6039215686, alpha: 1), #colorLiteral(red: 1, green: 0.77765733, blue: 0.7933813334, alpha: 1), #colorLiteral(red: 1, green: 0.77765733, blue: 0.7933813334, alpha: 1), #colorLiteral(red: 0.9917916656, green: 0.8281347156, blue: 0.6977577209, alpha: 1), #colorLiteral(red: 0.9917916656, green: 0.8281347156, blue: 0.6977577209, alpha: 1)]
     
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code
-        step = 100
         var caseStep = 0
         var modulo = 0
+        colorBlueArray.shuffle()
+        colorMorningArray.shuffle()
+        
         
         if (step <= 25 && step > 0) {
             caseStep = 1 //Spiral
         } else if (step % 100 <= 75 && step % 100 > 25) {
             caseStep = 2 //Spiral and Tree
-        } else if (step % 100 == 0 || step % 100 > 75) {
+        } else if (step % 100 == 0 || step % 100 > 75) && step > 75 {
             caseStep = 3 //Firework and Tree
             if step % 100 == 0 {
                 modulo = 25
@@ -44,7 +47,7 @@ class DrawingCanvasView: UIView {
         case 2: drawSpiral(25); drawTree(step % 100 - 25)
         case 3: drawTree(50); drawFireworks(modulo)
         case 4: drawFireworks(25); drawSpiral(step % 100)
-        default: drawSpiral(1)
+        default: drawSpiral(0)
         }
     
     }
@@ -132,56 +135,96 @@ class DrawingCanvasView: UIView {
                     }
                 }
             }
-            ///
         }
     }
     
     func drawSpiral(_ step: Int) {
+        var ccw: Bool = true
         var stepper = step
         
         for _ in stride(from: 0, to: step + 5, by: 5) {
             var center = CGPoint(x: (bounds.width).arc4random, y: (bounds.height - 100).arc4random)
             var startAngle = 3*CGFloat(Double.pi)/2
             var endAngle = CGFloat(0)
-            var radius = randomNumberBetweenRange((bounds.width / 170), (bounds.width / 100)) //Initial radius
+            var radius = randomNumberBetweenRange((bounds.width / 135), (bounds.width / 90)) //Initial radius
             
             // Use UIBezierPath to create the CGPath for the layer
             // The path should be the entire spiral
             
+            var path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
             // Begin arc
-            
-            let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+            if ccw {
+                path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+                endAngle = CGFloat(Double.pi)
+            } else {
+                path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+            }
             
             if stepper > 0 {
-                for _ in 0..<(min(4, stepper) * 2) {
-                    
-                    startAngle = endAngle
-                    
-                    switch startAngle {
-                    case 0, 2*CGFloat(Double.pi):
-                        center = CGPoint(x: center.x - radius/2, y: center.y)
-                        endAngle = CGFloat(Double.pi)/2
-                    case CGFloat(Double.pi):
-                        center = CGPoint(x: center.x + radius/2, y: center.y)
-                        endAngle = 3*CGFloat(Double.pi)/2
-                    case CGFloat(Double.pi)/2:
-                        center = CGPoint(x: center.x  , y: center.y - radius/2)
-                        endAngle = CGFloat(Double.pi)
-                    case 3*CGFloat(Double.pi)/2:
-                        center = CGPoint(x: center.x, y: center.y + radius/2)
-                        endAngle = 2*CGFloat(Double.pi)
-                    default:
-                        center = CGPoint(x:bounds.width/3, y: bounds.height/3)
+                if ccw {
+                    for _ in 0..<(min(4, stepper) * 2) {
+                        
+                        startAngle = endAngle
+                        
+                        switch startAngle {
+                        case 0:
+                            center = CGPoint(x: center.x - radius/2, y: center.y)
+                            endAngle = 3*CGFloat(Double.pi)/2
+                        case CGFloat(Double.pi):
+                            center = CGPoint(x: center.x + radius/2, y: center.y)
+                            endAngle = CGFloat(Double.pi)/2
+                        case CGFloat(Double.pi)/2:
+                            center = CGPoint(x: center.x , y: center.y - radius/2)
+                            endAngle = 0
+                        case 3*CGFloat(Double.pi)/2:
+                            center = CGPoint(x: center.x, y: center.y + radius/2)
+                            endAngle = CGFloat(Double.pi)
+                        default:
+                            center = CGPoint(x:bounds.width/3 + bounds.width/3, y: bounds.height/3)
+                        }
+                        
+                        radius = 1.5 * radius
+                        path.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle,clockwise: false)
+                        path.lineWidth = 30.0
+                        path.stroke(with: CGBlendMode.normal, alpha: 0.30)
+                        colorBlueArray[Int(CGFloat(colorBlueArray.count).arc4random)].setStroke()
+                        path.stroke()
+                        
                     }
-                    
-                    radius = 1.5 * radius
-                    path.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle,clockwise: true)
-                    path.lineWidth = 12.0
-                    path.stroke(with: CGBlendMode.normal, alpha: 0.30)
-                    #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).setStroke()
-                    path.stroke()
-                    
+                    ccw = false
+                } else {
+                    for _ in 0..<(min(4, stepper) * 2) {
+                        
+                        startAngle = endAngle
+                        
+                        switch startAngle {
+                        case 0, 2*CGFloat(Double.pi):
+                            center = CGPoint(x: center.x - radius/2, y: center.y)
+                            endAngle = CGFloat(Double.pi)/2
+                        case CGFloat(Double.pi):
+                            center = CGPoint(x: center.x + radius/2, y: center.y)
+                            endAngle = 3*CGFloat(Double.pi)/2
+                        case CGFloat(Double.pi)/2:
+                            center = CGPoint(x: center.x  , y: center.y - radius/2)
+                            endAngle = CGFloat(Double.pi)
+                        case 3*CGFloat(Double.pi)/2:
+                            center = CGPoint(x: center.x, y: center.y + radius/2)
+                            endAngle = 2*CGFloat(Double.pi)
+                        default:
+                            center = CGPoint(x:bounds.width/3, y: bounds.height/3)
+                        }
+                        
+                        radius = 1.5 * radius
+                        path.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle,clockwise: true)
+                        path.lineWidth = 30.0
+                        path.stroke(with: CGBlendMode.normal, alpha: 0.30)
+                        colorBlueArray[Int(CGFloat(colorBlueArray.count).arc4random)].setStroke()
+                        path.stroke()
+                        
+                    }
+                    ccw = true
                 }
+                
                 
                 stepper -= 5
             }
@@ -191,13 +234,13 @@ class DrawingCanvasView: UIView {
     }
     
     func drawFireworks(_ step: Int) {
-        let path = UIBezierPath()
+        var path = UIBezierPath()
         var root = CGPoint(x: bounds.width / 2, y: bounds.height - bounds.height * 0.1)
         root = CGPoint(x: root.x, y: root.y - bounds.height * 0.4 + (root.y - bounds.height * 0.4) * 0.01)
         path.move(to: root)
         path.lineWidth = 30.0
         path.stroke(with: CGBlendMode.normal, alpha: 0.30)
-        #colorLiteral(red: 0.7458879352, green: 0.9206150174, blue: 0.937274754, alpha: 1).setStroke()
+        colorBlueArray[Int(CGFloat(colorBlueArray.count).arc4random)].setStroke()
         let fireworkArray = makeFireworkArray(root.x, root.y)
         var fireworkIndex = 0
         let startPointArray = [root, CGPoint(x: root.x * 1.025, y: root.y - root.y * 0.05), CGPoint(x: root.x + root.x * 0.1, y: root.y - root.y * 0.05), CGPoint(x: root.x + root.x * 0.1, y: root.y + root.y * 0.025), CGPoint(x: root.x + root.x * 0.05, y: root.y + root.y * 0.05), root]
@@ -207,8 +250,12 @@ class DrawingCanvasView: UIView {
             path.addLine(to: array[index % 5])
             path.stroke()
             if index % 5 == 4 {
-                fireworkIndex+=1
+                fireworkIndex += 1
+                path = UIBezierPath()
                 path.move(to: startPointArray[fireworkIndex])
+                colorBlueArray[Int(CGFloat(colorBlueArray.count).arc4random)].setStroke()
+                path.lineWidth = 30.0
+                path.stroke(with: CGBlendMode.normal, alpha: 0.30)
             }
             
         }

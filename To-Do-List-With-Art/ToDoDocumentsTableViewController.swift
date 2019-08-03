@@ -129,16 +129,10 @@ class ToDoDocumentsTableViewController: UITableViewController {
         if segue.identifier == "Choose To-Do List", let destination = segue.destination as? ViewController, let index = tableView.indexPathForSelectedRow?.row {
             destination.tableData = ToDoDocumentsTableViewController.toDoDocuments[index].taskList
             destination.timeData = ToDoDocumentsTableViewController.toDoDocuments[index].timeList
-            ViewController.taskList = ToDoDocumentsTableViewController.toDoDocuments[index]
+            destination.taskList = ToDoDocumentsTableViewController.toDoDocuments[index]
         }
      }
   
-    
-    
-    
-    
-    
-    
     
 //    private func saveToDoLists() {
 //        do {
