@@ -22,7 +22,7 @@ class TaskList: NSObject, NSCoding {
     let tagger = NSLinguisticTagger(tagSchemes: [.tokenType, .language, .lexicalClass, .nameType, .lemma], options: 0)
     let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
     
-    
+       
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     //static let ArchiveURL = DocumentsDirectory.appendingPathComponent("taskLists")
