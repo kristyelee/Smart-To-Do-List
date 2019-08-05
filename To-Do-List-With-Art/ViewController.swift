@@ -47,7 +47,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             if lst.count > 1 {
                 maxWord = lst[Int((CGFloat(lst.count)).arc4random)]
-            }
+            } 
             
             if (count / self.taskList.wordCount) * 100 >= 175  {
                 suggestionLabel.textColor = UIColor.black
