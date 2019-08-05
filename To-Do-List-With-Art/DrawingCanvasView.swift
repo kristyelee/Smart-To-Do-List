@@ -259,8 +259,6 @@ class DrawingCanvasView: UIView {
             }
             
         }
-        
-        
     }
     
     func redraw() {

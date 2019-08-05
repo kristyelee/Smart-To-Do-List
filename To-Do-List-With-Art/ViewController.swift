@@ -32,12 +32,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.drawingCanvas.step = self.step
         self.drawingCanvas.setNeedsDisplay()
         self.drawingCanvas.setNeedsLayout()
+        if (self.taskList.wordCount >= 30) {
+            var count = 0
+            var maxWord = ""
+            var lst = [String]()
+            for word in self.taskList.wordList.keys {
+                if self.taskList.wordList[word]! > count {
+                    count = self.taskList.wordList[word]!
+                    maxWord = word
+                    lst = [word]
+                } else if self.taskList.wordList[word]! == count {
+                    lst.append(word)
+                }
+            }
+            if lst.count > 1 {
+                maxWord = lst[Int((CGFloat(lst.count)).arc4random)]
+            }
+            
+            if (count / self.taskList.wordCount) * 100 >= 175  {
+                suggestionLabel.textColor = UIColor.black
+                switch (maxWord) {
+                case "buy": suggestionLabel.text = "Did you forget to add a task involving  buying something?"
+                case "homework": suggestionLabel.text = "Did you forget to add a task involving finishing homework?"
+                case "research": suggestionLabel.text = "Did you forget to add a task involving finishing a research assignment?"
+                case "friend": suggestionLabel.text = "Did you want to add a reminder for meeting up with a friend?"
+                default: suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
+                }
+            }
+            
+            
+        } else {
+            suggestionLabel.textColor = UIColor.clear
+        }
     }
     
     //MARK: Properties
     @IBOutlet weak var drawingCanvas: DrawingCanvasView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var suggestionLabel: UILabel!
     var tableData = StringArrayList(array: [String]())
     var timeData = StringArrayList(array: [String]())
     var taskList = TaskList(name: "name", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))
@@ -144,6 +177,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func addHandler(_ alert: UIAlertAction!) {
         tableData.append(taskTextField?.text ?? "n/a")
         timeData.append(timeTextField?.text ?? "n/a")
+        taskList.lemmatization(for: taskTextField?.text ?? "n/a")
         self.tableView.reloadData()
     }
     
