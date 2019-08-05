@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class ToDoDocumentsTableViewController: UITableViewController {
+class ToDoDocumentsTableViewController: UITableViewController, UISplitViewControllerDelegate {
 
     var listTextField: UITextField?
     static var toDoDocuments = [TaskList(name: "To-Do List", taskList: StringArrayList(array: [String]()), timeList: StringArrayList(array: [String]()))]
@@ -26,6 +26,10 @@ class ToDoDocumentsTableViewController: UITableViewController {
 //        if let savedLists = loadToDoLists() {
 //            ToDoDocumentsTableViewController.toDoDocuments += savedLists
 //        }
+    }
+    
+    override func awakeFromNib() {
+        splitViewController?.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -133,7 +137,14 @@ class ToDoDocumentsTableViewController: UITableViewController {
         }
      }
   
-    
+    //MARK: Split View Controller
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if secondaryViewController is ViewController {
+            return true //The iPhone will show this TableView in main menu
+        }
+        return false
+    }
 //    private func saveToDoLists() {
 //        do {
 //            let data = try NSKeyedArchiver.archivedData(withRootObject: ToDoDocumentsTableViewController.toDoDocuments, requiringSecureCoding: false)
