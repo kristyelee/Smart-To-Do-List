@@ -56,8 +56,8 @@ class TaskList: NSObject, NSCoding {
     }
     
     //MARK: NLP
-    /* 3. Lemmatization
-    - Note: Words can be conjugated in many forms. Take the word run for example. It can be running, ran, will run, etc. Since their are many forms of a word, Lemmatization breaks down the word into it's most basic form.
+    /* Lemmatization
+    Lemmatization breaks down the word into it's most basic form.
     */
     func lemmatization(for text: String) {
         let words = text.components(separatedBy: " ")
