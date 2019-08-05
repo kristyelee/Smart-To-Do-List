@@ -141,7 +141,7 @@ class ToDoDocumentsTableViewController: UITableViewController, UISplitViewContro
     func splitViewController(_ splitViewController: UISplitViewController,
                              collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         if secondaryViewController is ViewController {
-            return true //The iPhone will show this TableView in main menu
+            return true //The iPhone will show this TableView in main menu (master view)
         }
         return false
     }
