@@ -119,7 +119,6 @@ class TaskList: NSObject, NSCoding {
 
     func incrementToken(token: String, category: Category) {
         if tokenOccurrences[token] == nil {
-            tokenCount += 1
             tokenOccurrences[token] = [:]
         }
         
@@ -130,7 +129,6 @@ class TaskList: NSObject, NSCoding {
     func incrementCategory(category: Category) {
         categoryOccurrences[category] = categoryOccurrences[category] ?? 0 + 1
     }
-    
     
     
     //MARK: NSCoding
