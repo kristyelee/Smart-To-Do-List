@@ -21,6 +21,10 @@ class TaskList: NSObject, NSCoding {
     var wordCount: Int = 0 //When this number reaches > 30 and when wordList has a number that is greater than 8, then write a suggestion. For continuous
     let tagger = NSLinguisticTagger(tagSchemes: [.tokenType, .language, .lexicalClass, .nameType, .lemma], options: 0)
     let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
+    private var categoryOccurrences: [Category: Int] = [:]
+    private var tokenOccurrences: [String: [Category: Int]] = [:]
+    private var trainingCount = 0
+    private var tokenCount = 0
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -92,6 +96,39 @@ class TaskList: NSObject, NSCoding {
             
             }
         }
+    }
+    
+    func tokenizer(text: String) -> [String] {
+        let words = text.components(separatedBy: " ")
+        let input = words.filter( { !StopWords.stopwords.contains($0) } )
+        return input
+    }
+    
+    func trainWithText(text: String, category: Category) {
+        trainWithTokens(tokens: tokenizer(text: text), category: category)
+    }
+    
+    func trainWithTokens(tokens: [String], category: Category) {
+        let tokens = Set(tokens)
+        for token in tokens {
+            incrementToken(token: token, category: category)
+        }
+        incrementCategory(category: category)
+        trainingCount += 1
+    }
+
+    func incrementToken(token: String, category: Category) {
+        if tokenOccurrences[token] == nil {
+            tokenCount += 1
+            tokenOccurrences[token] = [:]
+        }
+        
+        let count = tokenOccurrences[token]![category] ?? 0
+        tokenOccurrences[token]![category] = count + 1
+    }
+    
+    func incrementCategory(category: Category) {
+        categoryOccurrences[category] = categoryOccurrences[category] ?? 0 + 1
     }
     
     

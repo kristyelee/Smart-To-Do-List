@@ -47,20 +47,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             if lst.count > 1 {
                 maxWord = lst[Int((CGFloat(lst.count)).arc4random)]
-            } 
-            
-            if (count / self.taskList.wordCount) * 100 >= 175  {
-                suggestionLabel.textColor = UIColor.black
-                switch (maxWord) {
-                case "buy": suggestionLabel.text = "Did you forget to add a task involving  buying something?"
-                case "homework": suggestionLabel.text = "Did you forget to add a task involving finishing homework?"
-                case "research": suggestionLabel.text = "Did you forget to add a task involving finishing a research assignment?"
-                case "friend": suggestionLabel.text = "Did you want to add a reminder for meeting up with a friend?"
-                default: suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
-                }
             }
             
-            
+            if (count / self.taskList.wordCount) * 100 >= 15  {
+                suggestionLabel.textColor = UIColor.black
+                switch (maxWord) {
+                case "buy": do {
+                    DispatchQueue.main.async {
+                        self.suggestionLabel.text = "Did you forget to add a task involving buying something?"
+                    }
+                }
+                case "homework": do {
+                    DispatchQueue.main.async {
+                        self.suggestionLabel.text = "Did you forget to add a task involving finishing homework?"
+                    }
+                }
+                case "research": do {
+                    DispatchQueue.main.async {
+                        self.suggestionLabel.text = "Did you forget to add a task involving finishing a research assignment?"
+                    }
+                }
+                case "friend": do {
+                    DispatchQueue.main.async {
+                        self.suggestionLabel.text = "Did you want to add a reminder for meeting up with a friend?"
+                    }
+                }
+                case "appointment": do {
+                    DispatchQueue.main.async {
+                        self.suggestionLabel.text = "Did you want to add a reminder for making/coming to an appointment?"
+                    }
+                }
+                default:
+                    do {
+                        DispatchQueue.main.async {
+                            self.suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
+                        }
+                    }
+                }
+                
+            }
+            else {
+                suggestionLabel.textColor = UIColor.clear
+            }
         } else {
             suggestionLabel.textColor = UIColor.clear
         }
