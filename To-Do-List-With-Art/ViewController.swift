@@ -87,7 +87,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 self.suggestionLabel.text = "Did you forget to add a task involving \"\(category )\"?"
                             }
                         } else {
-                            DispatchQueue.main.async {
+                            DispatchQueue.main.async { 
                                 self.suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
                             }
                         }
