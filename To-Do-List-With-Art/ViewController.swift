@@ -30,6 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.reloadData()
         self.step = taskList.step
         self.drawingCanvas.step = self.step
+        self.taskList.training()
         self.drawingCanvas.setNeedsDisplay()
         self.drawingCanvas.setNeedsLayout()
         if (self.taskList.wordCount >= 30) {
@@ -79,9 +80,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 default:
                     do {
-                        DispatchQueue.main.async {
-                            self.suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
+                        if let categories = taskList.tokenOccurrences[maxWord] {
+                            let greatestCategory = categories.max { a, b in a.value < b.value }
+                            let category = greatestCategory!.key
+                            DispatchQueue.main.async {
+                                self.suggestionLabel.text = "Did you forget to add a task involving \"\(category )\"?"
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.suggestionLabel.text = "Did you forget to add a task involving \"\(maxWord)\"?"
+                            }
                         }
+                       
                     }
                 }
                 

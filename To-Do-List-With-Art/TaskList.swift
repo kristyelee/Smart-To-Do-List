@@ -21,10 +21,11 @@ class TaskList: NSObject, NSCoding {
     var wordCount: Int = 0 //When this number reaches > 30 and when wordList has a number that is greater than 8, then write a suggestion. For continuous
     let tagger = NSLinguisticTagger(tagSchemes: [.tokenType, .language, .lexicalClass, .nameType, .lemma], options: 0)
     let options: NSLinguisticTagger.Options = [.omitPunctuation, .omitWhitespace, .joinNames]
-    private var categoryOccurrences: [Category: Int] = [:]
-    private var tokenOccurrences: [String: [Category: Int]] = [:]
-    private var trainingCount = 0
-    private var tokenCount = 0
+    var categoryOccurrences: [Category: Int] = [:]
+    var tokenOccurrences: [String: [Category: Int]] = [:]
+    var trainingCount = 0
+    var tokenCount = 0
+    public typealias Category = String
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -93,10 +94,27 @@ class TaskList: NSObject, NSCoding {
                     self.wordCount += 1
                 }
             } catch {
-            
+                
             }
         }
     }
+    
+    func training() {
+        trainWithText(text: "literature history humanities", category: "humanities")
+        trainWithText(text: "literature history humanities", category: "humanities")
+        trainWithText(text: "literature history humanities", category: "humanities")
+        trainWithText(text: "earth mars solar system rocket rover satellite", category: "space")
+        trainWithText(text: "earth mars solar system rocket rover satellite", category: "space")
+        trainWithText(text: "earth mars solar system rocket rover satellite", category: "space")
+        trainWithText(text: "earth mars solar system rocket rover satellite", category: "space")
+        trainWithText(text: "dentist doctor orthodontist", category: "appointment")
+        trainWithText(text: "dentist doctor orthodontist", category: "appointment")
+        trainWithText(text: "dentist doctor orthodontist", category: "appointment")
+        trainWithText(text: "dentist doctor orthodontist", category: "appointment")
+        print(tokenOccurrences)
+    }
+    
+    
     
     func tokenizer(text: String) -> [String] {
         let words = text.components(separatedBy: " ")
