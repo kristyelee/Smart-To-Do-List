@@ -12,7 +12,7 @@ import os.log
 
 class TaskList: NSObject, NSCoding {
     
-    //MARK: Properties
+    //MARK: Properties 
     var name: String
     var taskList = StringArrayList(array: [String]())
     var timeList = StringArrayList(array: [String]())
