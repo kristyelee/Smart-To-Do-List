@@ -9,7 +9,7 @@ import UIKit
 
 class ImageFetcher {
     // Public API
-    
+     
     // To use, create with the closure you want called when the image is ready.
     // Example: let fetcher = ImageFetcher() { // code to execute when fetch is done }
     // Your closure is invoked OFF THE MAIN THREAD.
