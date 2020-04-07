@@ -15,7 +15,7 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var checkButton: UIButton!
     
     
-    override func awakeFromNib() {
+    override func awakeFromNib() { 
         super.awakeFromNib()
         // Initialization code
         checkButton.layer.cornerRadius = checkButton.frame.size.width / 2
